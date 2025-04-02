@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Photo Bot</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="{{ url_for('static', filename='css/src/output.css') }}" rel="stylesheet">
+    <style>
+        .photo-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .photo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+    <noscript>
+        <style>
+            /* Basic fallback styles */
+            body { font-family: sans-serif; margin: 0; padding: 20px; }
+            button { background: #4f46e5; color: white; padding: 8px 16px; border: none; border-radius: 4px; }
+            input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        </style>
+    </noscript>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-indigo-800 mb-2">✈️ Travel Photo Bot</h1>
+            <p class="text-xl text-indigo-600">Get inspired with beautiful travel photography</p>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <main class="flex-1">
+                <div class="bg-white rounded-2xl shadow-xl p-6 mb-6">
+                    <div class="relative">
+                        <input type="text" id="search-input" 
+                               class="w-full p-4 pr-16 rounded-full border-2 border-indigo-300 focus:border-indigo-500 focus:outline-none"
+                               placeholder="Describe the travel photo you're looking for...">
+                        <button id="search-btn" class="absolute right-2 top-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full transition">
+                            Search
+                        </button>
+                    </div>
+                </div>
+
+                <div id="results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="text-center py-12 text-gray-500" id="default-message">
+                        <p>Enter a search term to see beautiful travel photos</p>
+                    </div>
+                </div>
+            </main>
+
+            <aside class="lg:w-80 bg-white rounded-2xl shadow-xl p-6 h-fit">
+                <h2 class="text-2xl font-bold text-indigo-800 mb-4">Travel Photography Tips</h2>
+                <ul class="space-y-4">
+                    <li class="p-4 bg-blue-50 rounded-lg">
+                        <h3 class="font-semibold text-blue-800">Golden Hour Magic</h3>
+                        <p class="text-sm text-gray-600">Shoot during sunrise or sunset for warm, soft lighting.</p>
+                    </li>
+                    <li class="p-4 bg-blue-50 rounded-lg">
+                        <h3 class="font-semibold text-blue-800">Rule of Thirds</h3>
+                        <p class="text-sm text-gray-600">Imagine a 3x3 grid and place subjects at intersection points.</p>
+                    </li>
+                    <li class="p-4 bg-blue-50 rounded-lg">
+                        <h3 class="font-semibold text-blue-800">Capture Local Life</h3>
+                        <p class="text-sm text-gray-600">Document authentic moments of daily life and culture.</p>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            const resultsContainer = document.getElementById('results');
+            const defaultMessage = document.getElementById('default-message');
+
+            searchBtn.addEventListener('click', searchPhotos);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') searchPhotos();
+            });
+
+            async function displayResults(photos) {
+    const resultsContainer = document.getElementById('results');
+    resultsContainer.innerHTML = '';
+    
+    photos.forEach(photo => {
+        const card = document.createElement('div');
+        card.className = 'photo-card bg-white rounded-lg shadow-md overflow-hidden';
+        card.innerHTML = `
+            <img src="${photo.urls.regular}" 
+                 alt="${photo.alt_description || 'Travel photo'}"
+                 class="w-full h-48 object-cover">
+            <div class="p-4">
+                <p class="text-sm text-gray-600">Photo by ${photo.user.name}</p>
+            </div>
+        `;
+        resultsContainer.appendChild(card);
+    });
+}
+
+async function searchPhotos() {
+    const query = document.getElementById('search-input').value.trim();
+    if (!query) {
+        alert('Please enter a search term');
+        return;
+    }
+
+    const resultsContainer = document.getElementById('results');
+    resultsContainer.innerHTML = '<div class="col-span-3 text-center py-8"><p>Searching...</p></div>';
+
+    try {
+        const response = await fetch('/search', {
+            method: 'POST',
+            body: new URLSearchParams({ query })
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.error || 'Search failed');
+        }
+
+        if (data.results && data.results.length > 0) {
+            displayResults(data.results);
+        } else {
+            resultsContainer.innerHTML = '<div class="col-span-3 text-center py-8"><p>No photos found. Try a different search.</p></div>';
+        }
+    } catch (error) {
+        console.error('Search error:', error);
+        resultsContainer.innerHTML = `
+            <div class="col-span-3 text-center py-8 text-red-500">
+                <p class="font-medium">${error.message}</p>
+                <p class="text-sm mt-2">Check console for details</p>
+            </div>`;
+    }
+}
+        });
+    </script>
+</body>
+</html>
