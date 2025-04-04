@@ -1,4 +1,3 @@
-// static/js/script.js
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search-input');
     const searchBtn = document.getElementById('search-btn');
