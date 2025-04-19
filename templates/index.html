@@ -6,68 +6,133 @@
     <title>Travel Photo Bot</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="{{ url_for('static', filename='css/src/output.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+        }
         .photo-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .photo-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .animate-pulse-slow {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
         }
     </style>
-    <noscript>
-        <style>
-            /* Basic fallback styles */
-            body { font-family: sans-serif; margin: 0; padding: 20px; }
-            button { background: #4f46e5; color: white; padding: 8px 16px; border: none; border-radius: 4px; }
-            input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
-        </style>
-    </noscript>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-        <header class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-indigo-800 mb-2">✈️ Travel Photo Bot</h1>
-            <p class="text-xl text-indigo-600">Get inspired with beautiful travel photography</p>
+<body class="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-indigo-100">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <header class="text-center mb-12 animate__animated animate__fadeIn">
+            <div class="inline-block mb-6 float-animation">
+                <span class="text-6xl">✈️</span>
+            </div>
+            <h1 class="text-5xl font-bold bg-gradient-to-r from-teal-600 to-indigo-600 bg-clip-text text-transparent mb-4">
+                Travel Photo Bot
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Get inspired with AI-powered photography suggestions for your next adventure
+            </p>
         </header>
 
         <div class="flex flex-col lg:flex-row gap-8">
             <main class="flex-1">
-                <div class="bg-white rounded-2xl shadow-xl p-6 mb-6">
+                <div class="glass-effect rounded-3xl shadow-lg p-8 mb-8">
                     <div class="relative">
                         <input type="text" id="search-input" 
-                               class="w-full p-4 pr-16 rounded-full border-2 border-indigo-300 focus:border-indigo-500 focus:outline-none"
-                               placeholder="Describe the travel photo you're looking for...">
-                        <button id="search-btn" class="absolute right-2 top-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full transition">
-                            Search
+                               class="w-full p-6 pr-36 rounded-2xl border-2 border-teal-200 focus:border-teal-400 focus:outline-none text-lg transition-all duration-300 shadow-sm"
+                               placeholder="What kind of travel photo are you looking for?">
+                        <button id="search-btn" 
+                                class="absolute right-2 top-2 bg-gradient-to-r from-teal-500 to-indigo-500 hover:from-teal-600 hover:to-indigo-600 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
+                            <span>Inspire Me</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
                         </button>
                     </div>
                 </div>
 
-                <div id="results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="text-center py-12 text-gray-500" id="default-message">
-                        <p>Enter a search term to see beautiful travel photos</p>
+                <div id="results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="text-center py-16 col-span-full" id="default-message">
+                        <div class="text-gray-400 space-y-4">
+                            <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            <p class="text-xl font-medium">Ready to discover amazing travel photos?</p>
+                            <p class="text-gray-500">Type your inspiration above and let's explore together</p>
+                        </div>
                     </div>
                 </div>
             </main>
 
-            <aside class="lg:w-80 bg-white rounded-2xl shadow-xl p-6 h-fit">
-                <h2 class="text-2xl font-bold text-indigo-800 mb-4">Travel Photography Tips</h2>
-                <ul class="space-y-4">
-                    <li class="p-4 bg-blue-50 rounded-lg">
-                        <h3 class="font-semibold text-blue-800">Golden Hour Magic</h3>
-                        <p class="text-sm text-gray-600">Shoot during sunrise or sunset for warm, soft lighting.</p>
-                    </li>
-                    <li class="p-4 bg-blue-50 rounded-lg">
-                        <h3 class="font-semibold text-blue-800">Rule of Thirds</h3>
-                        <p class="text-sm text-gray-600">Imagine a 3x3 grid and place subjects at intersection points.</p>
-                    </li>
-                    <li class="p-4 bg-blue-50 rounded-lg">
-                        <h3 class="font-semibold text-blue-800">Capture Local Life</h3>
-                        <p class="text-sm text-gray-600">Document authentic moments of daily life and culture.</p>
-                    </li>
-                </ul>
+            <aside class="lg:w-[480px]">
+                <div class="glass-effect rounded-3xl shadow-lg p-8 sticky top-8">
+                    <h2 class="text-2xl font-bold bg-gradient-to-r from-teal-600 to-indigo-600 bg-clip-text text-transparent mb-6">
+                        Pro Photography Tips
+                    </h2>
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-teal-50 to-blue-50 rounded-2xl p-6 transform transition-all duration-300 hover:scale-105">
+                            <div class="flex items-start gap-4">
+                                <div class="bg-teal-500 rounded-full p-2 text-white">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 mb-2">Golden Hour Magic</h3>
+                                    <p class="text-gray-600">Capture stunning shots during the first and last hour of sunlight for warm, dreamy lighting.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 transform transition-all duration-300 hover:scale-105">
+                            <div class="flex items-start gap-4">
+                                <div class="bg-blue-500 rounded-full p-2 text-white">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 mb-2">Rule of Thirds</h3>
+                                    <p class="text-gray-600">Place key elements along the intersections of a 3x3 grid for more dynamic compositions.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 transform transition-all duration-300 hover:scale-105">
+                            <div class="flex items-start gap-4">
+                                <div class="bg-indigo-500 rounded-full p-2 text-white">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 mb-2">Local Culture</h3>
+                                    <p class="text-gray-600">Document authentic moments of daily life to tell compelling visual stories.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </aside>
         </div>
     </div>
@@ -84,61 +149,99 @@
                 if (e.key === 'Enter') searchPhotos();
             });
 
+            function createLoadingCard() {
+                return `
+                    <div class="animate-pulse bg-white rounded-2xl shadow-lg overflow-hidden">
+                        <div class="bg-gray-200 h-48 w-full"></div>
+                        <div class="p-4">
+                            <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                        </div>
+                    </div>
+                `.repeat(6);
+            }
+
             async function displayResults(photos) {
-    const resultsContainer = document.getElementById('results');
-    resultsContainer.innerHTML = '';
-    
-    photos.forEach(photo => {
-        const card = document.createElement('div');
-        card.className = 'photo-card bg-white rounded-lg shadow-md overflow-hidden';
-        card.innerHTML = `
-            <img src="${photo.urls.regular}" 
-                 alt="${photo.alt_description || 'Travel photo'}"
-                 class="w-full h-48 object-cover">
-            <div class="p-4">
-                <p class="text-sm text-gray-600">Photo by ${photo.user.name}</p>
-            </div>
-        `;
-        resultsContainer.appendChild(card);
-    });
-}
+                resultsContainer.innerHTML = '';
+                
+                photos.forEach(photo => {
+                    const card = document.createElement('div');
+                    card.className = 'photo-card glass-effect rounded-2xl shadow-lg overflow-hidden animate__animated animate__fadeIn';
+                    card.innerHTML = `
+                        <div class="relative group">
+                            <img src="${photo.urls.regular}" 
+                                 alt="${photo.alt_description || 'Travel photo'}"
+                                 class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-3">
+                                <img src="${photo.user.profile_image.small}" 
+                                     alt="${photo.user.name}"
+                                     class="w-8 h-8 rounded-full">
+                                <div>
+                                    <p class="font-medium text-gray-800">${photo.user.name}</p>
+                                    <p class="text-sm text-gray-500">@${photo.user.username}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    resultsContainer.appendChild(card);
+                });
+            }
 
-async function searchPhotos() {
-    const query = document.getElementById('search-input').value.trim();
-    if (!query) {
-        alert('Please enter a search term');
-        return;
-    }
+            async function searchPhotos() {
+                const query = searchInput.value.trim();
+                if (!query) {
+                    searchInput.classList.add('animate__animated', 'animate__shakeX');
+                    setTimeout(() => searchInput.classList.remove('animate__animated', 'animate__shakeX'), 1000);
+                    return;
+                }
 
-    const resultsContainer = document.getElementById('results');
-    resultsContainer.innerHTML = '<div class="col-span-3 text-center py-8"><p>Searching...</p></div>';
+                resultsContainer.innerHTML = createLoadingCard();
 
-    try {
-        const response = await fetch('/search', {
-            method: 'POST',
-            body: new URLSearchParams({ query })
-        });
+                try {
+                    const response = await fetch('/search', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams({ query })
+                    });
 
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(data.error || 'Search failed');
-        }
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Search failed');
+                    }
 
-        if (data.results && data.results.length > 0) {
-            displayResults(data.results);
-        } else {
-            resultsContainer.innerHTML = '<div class="col-span-3 text-center py-8"><p>No photos found. Try a different search.</p></div>';
-        }
-    } catch (error) {
-        console.error('Search error:', error);
-        resultsContainer.innerHTML = `
-            <div class="col-span-3 text-center py-8 text-red-500">
-                <p class="font-medium">${error.message}</p>
-                <p class="text-sm mt-2">Check console for details</p>
-            </div>`;
-    }
-}
+                    if (data.results && data.results.length > 0) {
+                        displayResults(data.results);
+                    } else {
+                        resultsContainer.innerHTML = `
+                            <div class="col-span-full text-center py-16">
+                                <div class="text-gray-400 space-y-4">
+                                    <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    <p class="text-xl font-medium">No photos found</p>
+                                    <p class="text-gray-500">Try different search terms or explore another destination</p>
+                                </div>
+                            </div>`;
+                    }
+                } catch (error) {
+                    console.error('Search error:', error);
+                    resultsContainer.innerHTML = `
+                        <div class="col-span-full text-center py-16">
+                            <div class="text-red-400 space-y-4">
+                                <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <p class="text-xl font-medium">Oops! Something went wrong</p>
+                                <p class="text-gray-500">${error.message}</p>
+                            </div>
+                        </div>`;
+                }
+            }
         });
     </script>
 </body>
