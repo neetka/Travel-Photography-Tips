@@ -1,55 +1,61 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Tips for {{ location }}</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-        .tip-section { margin-bottom: 30px; }
-        .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-        .photo { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; }
-        .spot-card { background: #f5f5f5; padding: 15px; margin-bottom: 10px; border-radius: 5px; }
-        @media (max-width: 600px) { .photo-grid { grid-template-columns: 1fr 1fr; } }
-    </style>
+    <title>Tips for {{ location }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>Photography Tips for {{ location }}</h1>
-    
-    <div class="tip-section">
-        <h2>Weather Tips</h2>
-        <ul>
-            {% for tip in tips.weather_tips %}
-            <li>{{ tip }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    
-    <div class="tip-section">
-        <h2>Location Recommendations</h2>
-        {% for tip in tips.location_tips %}
-        <div class="spot-card">
-            {{ tip }}
+    <div class="container" style="padding-top: 10px; max-width: 1200px; margin: 0 auto;">
+        <div class="tips-section glass-effect">
+            <h2 class="text-gradient">Weather Tips</h2>
+            <div class="card-grid">
+                {% for tip in tips.weather_tips %}
+                <div class="tip-card">
+                    <p>{{ tip }}</p>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-        {% endfor %}
-    </div>
-    
-    <div class="tip-section">
-        <h2>Photo Inspiration</h2>
-        <div class="photo-grid">
-            {% for photo in tips.inspiration_photos %}
-            <img src="{{ photo.url }}" alt="{{ photo.description }}" class="photo">
-            {% endfor %}
+        
+        <div class="tips-section glass-effect" style="margin-top: 20px;">
+            <h2 class="text-gradient">Location Recommendations</h2>
+            <div class="card-grid">
+                {% for tip in tips.location_tips %}
+                <div class="tip-card">
+                    <p>{{ tip }}</p>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-    
-    <div class="tip-section">
-        <h2>Gear Recommendations</h2>
-        <ul>
-            {% for item in tips.gear_recommendations %}
-            <li>{{ item }}</li>
-            {% endfor %}
-        </ul>
+        
+        <div class="tips-section glass-effect" style="margin-top: 20px;">
+            <h2 class="text-gradient">Photo Inspiration</h2>
+            <div class="inspiration-wall">
+                {% for photo in tips.inspiration_photos %}
+                <div class="inspiration-item">
+                    <img src="{{ photo.url }}" alt="{{ photo.description }}">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="tips-section glass-effect" style="margin-top: 20px;">
+            <h2 class="text-gradient">Gear Recommendations</h2>
+            <div class="card-grid">
+                {% for item in tips.gear_recommendations %}
+                <div class="tip-card">
+                    <p>{{ item }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <a href="/" class="btn-primary" style="display: block; width: fit-content; margin: 2rem auto;">
+            Back to Home
+        </a>
     </div>
 </body>
 </html>

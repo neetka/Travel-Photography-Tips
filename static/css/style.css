@@ -3,146 +3,232 @@
     --sunset-orange: #FF7043;
     --soft-white: #FAFAFA;
     --charcoal: #333333;
-    --gradient: linear-gradient(135deg, var(--sky-blue), var(--sunset-orange));
+    --gradient-primary: linear-gradient(135deg, var(--sky-blue), var(--sunset-orange));
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* Base Styles */
 body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--soft-white);
     color: var(--charcoal);
     line-height: 1.6;
+    margin: 0;
+    min-height: 100vh;
 }
 
-h1, h2, h3 {
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif;
+    margin-bottom: 1rem;
 }
 
+/* Hero Section */
 .hero-section {
-    height: 60vh;
-    background: var(--gradient);
+    height: 80vh;
+    background: var(--gradient-primary);
+    position: relative;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    position: relative;
-    overflow: hidden;
+    color: var(--soft-white);
+    padding: 2rem;
 }
 
 .hero-content {
-    color: white;
+    max-width: 800px;
     z-index: 2;
 }
 
-.hero-content h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
+.hero-title {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
 }
 
-.tagline {
+.hero-subtitle {
     font-size: 1.5rem;
+    margin-bottom: 2rem;
     font-weight: 300;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.photography-form {
-    background: white;
-    padding: 2rem;
+/* Glass Effect Components */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    margin-top: -50px;
-    position: relative;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
+/* Interactive Elements */
 .input-styled {
     width: 100%;
-    padding: 12px;
-    border: 2px solid #e0e0e0;
+    padding: 1rem;
+    border: 2px solid var(--sky-blue);
     border-radius: 8px;
     font-size: 1rem;
     transition: all 0.3s ease;
+    background-color: var(--soft-white);
 }
 
 .input-styled:focus {
-    border-color: var(--sky-blue);
+    border-color: var(--sunset-orange);
+    box-shadow: 0 0 15px rgba(135, 206, 235, 0.3);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.2);
 }
 
-.gear-options {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-}
-
-.gear-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.gear-icon {
-    font-size: 1.5rem;
-    margin-right: 0.5rem;
-}
-
-.submit-btn {
-    background: var(--gradient);
+.btn-primary {
+    background: var(--gradient-primary);
     color: white;
-    border: none;
     padding: 1rem 2rem;
+    border: none;
     border-radius: 8px;
-    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: transform 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
+    transition: all 0.3s ease;
 }
 
-.submit-btn:hover {
+.btn-primary:hover {
     transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.inspiration-wall {
-    margin-top: 4rem;
-}
-
-.photo-grid {
+/* Card Layouts */
+.card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
 }
 
+.photo-card {
+    background: var(--soft-white);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.photo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.photo-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.photo-card:hover img {
+    transform: scale(1.05);
+}
+
+/* Tips Section */
+.tips-section {
+    background: linear-gradient(45deg, rgba(135, 206, 235, 0.1), rgba(255, 112, 67, 0.1));
+    padding: 4rem 2rem;
+}
+
+.tip-card {
+    background: var(--soft-white);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--sky-blue);
+}
+
+.tip-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Utilities */
+.text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-    .hero-content h1 {
+    .hero-title {
         font-size: 2.5rem;
     }
     
-    .container {
+    .card-grid {
+        grid-template-columns: 1fr;
         padding: 1rem;
     }
     
-    .photography-form {
-        margin-top: -30px;
+    .glass-effect {
         padding: 1.5rem;
     }
+}
+
+/* Animations */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.float-animation {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Mode Selector */
+.mode-selector {
+    display: flex;
+    gap: 1rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.mode-option {
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    background: var(--soft-white);
+    border: 2px solid var(--sky-blue);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mode-option:hover,
+.mode-option.active {
+    background: var(--gradient-primary);
+    color: var(--soft-white);
+    border-color: transparent;
+}
+
+/* Inspiration Wall */
+.inspiration-wall {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.inspiration-item {
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 10px;
+    position: relative;
+}
+
+.inspiration-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.inspiration-item:hover img {
+    transform: scale(1.1);
 }

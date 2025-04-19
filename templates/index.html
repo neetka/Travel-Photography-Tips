@@ -1,71 +1,47 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Photography Tips</title>
-    
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    
-    <!-- External CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    
-    <!-- Animation Library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body>
     <div class="hero-section">
-        <div class="hero-content animate__animated animate__fadeIn">
-            <h1>Travel Photography Tips</h1>
-            <p class="tagline">Explore. Capture. Inspire.</p>
+        <div class="hero-content">
+            <h1 class="hero-title">Travel Photography Tips</h1>
+            <p class="hero-subtitle">Explore. Capture. Inspire.</p>
         </div>
     </div>
 
-    <main class="container">
-        <form method="POST" class="photography-form animate__animated animate__fadeInUp">
+    <div class="container glass-effect" style="margin: -60px auto 40px; max-width: 800px; position: relative; z-index: 2;">
+        <form method="POST" class="photography-form">
             <div class="form-group">
-                <label for="location">Where's your next adventure?</label>
+                <label for="location" class="text-gradient">Where's your next adventure?</label>
                 <input type="text" id="location" name="location" required 
                        placeholder="City, Country" class="input-styled">
             </div>
             
             <div class="form-group">
-                <h3>Your Photography Gear</h3>
-                <div class="gear-options">
-                    <div class="gear-item">
+                <h3 class="text-gradient">Your Photography Gear</h3>
+                <div class="mode-selector">
+                    <div class="mode-option">
                         <input type="checkbox" id="tripod" name="tripod">
-                        <label for="tripod">
-                            <span class="gear-icon">🔭</span>
-                            Tripod
-                        </label>
+                        <label for="tripod">Tripod</label>
                     </div>
-                    <div class="gear-item">
+                    <div class="mode-option">
                         <input type="checkbox" id="filters" name="filters">
-                        <label for="filters">
-                            <span class="gear-icon">🎨</span>
-                            Lens Filters
-                        </label>
+                        <label for="filters">Lens Filters</label>
                     </div>
                 </div>
             </div>
             
-            <button type="submit" class="submit-btn">
+            <button type="submit" class="btn-primary">
                 Get Photography Tips
                 <span class="btn-icon">📸</span>
             </button>
         </form>
-
-        <section class="inspiration-wall">
-            <h2>Photography Inspiration</h2>
-            <div class="photo-grid">
-                <!-- Dynamic photos will be loaded here -->
-            </div>
-        </section>
-    </main>
-
-    <!-- External JavaScript -->
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    </div>
 </body>
 </html>
