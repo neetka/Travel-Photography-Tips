@@ -1,40 +1,22 @@
-from flask import Flask, render_template, request, jsonify
-import requests
-import os
+# app.py
+from flask import Flask, render_template, request
+from tip_generator import generate_tips
 
+app = Flask(__name__)
 
-from flask_cors import CORS
-
-app = Flask(__name__, static_folder='static', static_url_path='/static')
-CORS(app)
-
-# API Configuration - REPLACE WITH YOUR ACTUAL API KEY
-API_KEY = "QF5O3SBCg8-3hqf9ELXNWfhqZrdqKzlfDjhspGtDW-E"  # Change this!
-API_ENDPOINT = "https://api.unsplash.com/search/photos"
-
-@app.route("/")
-def home():
-    return render_template("index.html")
-
-@app.route("/search", methods=["POST"])
-def search():
-    try:
-        query = request.form.get("query", "")
-    
-        if not query:
-            return jsonify({"error": "Empty query"}), 400
-    
-        params = {
-            "query": query,
-            "per_page": 9,
-            "client_id": API_KEY
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        location = request.form['location']
+        preferences = {
+            'tripod': 'tripod' in request.form,
+            'filters': 'filters' in request.form
         }
+        
+        tips = generate_tips(location, preferences)
+        return render_template('results.html', tips=tips, location=location)
     
-    
-        response = requests.get(API_ENDPOINT, params=params)
-        response.raise_for_status()
-        return jsonify(response.json())
-    except requests.exceptions.RequestException as e:
-        return jsonify({"error": f"API request failed: {str(e)}"}), 500
-if __name__ == "__main__":
+    return render_template('index.html')
+
+if __name__ == '__main__':
     app.run(debug=True, port=5001)

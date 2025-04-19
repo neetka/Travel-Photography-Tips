@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tips for {{ location }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container" style="padding-top: 10px; max-width: 1200px; margin: 0 auto;">
+        <div class="tips-section glass-effect">
+            <h2 class="text-gradient">Weather Tips</h2>
+            <div class="card-grid">
+                {% for tip in tips.weather_tips %}
+                <div class="tip-card">
+                    <p>{{ tip }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="tips-section glass-effect" style="margin-top: 20px;">
+            <h2 class="text-gradient">Location Recommendations</h2>
+            <div class="card-grid">
+                {% for tip in tips.location_tips %}
+                <div class="tip-card">
+                    <p>{{ tip }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="tips-section glass-effect" style="margin-top: 20px;">
+            <h2 class="text-gradient">Photo Inspiration</h2>
+            <div class="inspiration-wall">
+                {% for photo in tips.inspiration_photos %}
+                <div class="inspiration-item">
+                    <img src="{{ photo.url }}" alt="{{ photo.description }}">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="tips-section glass-effect" style="margin-top: 20px;">
+            <h2 class="text-gradient">Gear Recommendations</h2>
+            <div class="card-grid">
+                {% for item in tips.gear_recommendations %}
+                <div class="tip-card">
+                    <p>{{ item }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <a href="/" class="btn-primary" style="display: block; width: fit-content; margin: 2rem auto;">
+            Back to Home
+        </a>
+    </div>
+</body>
+</html>
