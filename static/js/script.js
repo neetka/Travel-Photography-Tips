@@ -41,4 +41,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>`;
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate form elements on scroll
+        const form = document.querySelector('.photography-form');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                }
+            });
+        });
+        
+        observer.observe(form);
+    
+        // Form validation and enhancement
+        const locationInput = document.getElementById('location');
+        if (locationInput) {
+            locationInput.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+    
+            locationInput.addEventListener('blur', function() {
+                this.parentElement.classList.remove('focused');
+            });
+        }
+    
+        // Smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
 });
